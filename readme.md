@@ -140,3 +140,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - MySQL Documentation
 - Database Design Best Practices
 - Bookstore Management Systems
+

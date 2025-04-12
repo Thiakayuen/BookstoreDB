@@ -142,4 +142,4 @@ CREATE TABLE order_history (
     notes TEXT,
     FOREIGN KEY (order_id) REFERENCES cust_order(id),
     FOREIGN KEY (status_id) REFERENCES order_status(id)
-); 
+);
