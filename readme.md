@@ -51,7 +51,7 @@ This project implements a comprehensive database management system for a booksto
 
 ## 🧱 ER Diagram
 
-![ERD Diagram](https://github.com/user-attachments/assets/b63a7fa4-8354-471d-8152-698f41295a7f)
+![ERD Diagram](https://github.com/user-attachments/assets/e94c367c-da66-4e1e-8f97-af229203b750)
 
 
 ## ⚙️ Setup Instructions
