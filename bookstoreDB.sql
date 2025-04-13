@@ -1,45 +1,37 @@
 -- Create the bookstoreDB database  
 CREATE DATABASE bookstoreDB;
-
 -- Use the bookstore database
 USE bookstoreDB;
-
--- 2. Tables without dependencies
+-- Tables without dependencies
 CREATE TABLE country (
     id INT PRIMARY KEY AUTO_INCREMENT,
     country_name VARCHAR(100) NOT NULL,
     country_code VARCHAR(10)
 ) ENGINE = InnoDB;
-
 CREATE TABLE order_status (
     id INT PRIMARY KEY AUTO_INCREMENT,
     status_name VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB;
-
 CREATE TABLE shipping_method (
     id INT PRIMARY KEY AUTO_INCREMENT,
     method_name VARCHAR(100) NOT NULL,
     price DECIMAL(10, 2) NOT NULL
 ) ENGINE = InnoDB;
-
 CREATE TABLE book_language (
     id INT PRIMARY KEY AUTO_INCREMENT,
     language_name VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB;
-
 CREATE TABLE publisher (
     id INT PRIMARY KEY AUTO_INCREMENT,
     publisher_name VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     email VARCHAR(100)
 ) ENGINE = InnoDB;
-
 CREATE TABLE author (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB;
-
 -- 3. Tables that depend on above
 CREATE TABLE address (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -50,7 +42,6 @@ CREATE TABLE address (
     country_id INT,
     FOREIGN KEY (country_id) REFERENCES country(id)
 ) ENGINE = InnoDB;
-
 CREATE TABLE customer (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
@@ -58,7 +49,6 @@ CREATE TABLE customer (
     email VARCHAR(100) NOT NULL UNIQUE,
     phone VARCHAR(20)
 ) ENGINE = InnoDB;
-
 CREATE TABLE book (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -71,7 +61,6 @@ CREATE TABLE book (
     FOREIGN KEY (language_id) REFERENCES book_language(id),
     FOREIGN KEY (publisher_id) REFERENCES publisher(id)
 ) ENGINE = InnoDB;
-
 -- Create address_status table
 CREATE TABLE address_status (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -80,7 +69,6 @@ CREATE TABLE address_status (
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = InnoDB;
-
 -- 4. Tables with higher-level dependencies
 CREATE TABLE customer_address (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -92,7 +80,6 @@ CREATE TABLE customer_address (
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (address_id) REFERENCES address(id)
 ) ENGINE = InnoDB;
-
 CREATE TABLE cust_order (
     id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
@@ -106,7 +93,6 @@ CREATE TABLE cust_order (
     FOREIGN KEY (shipping_method_id) REFERENCES shipping_method(id),
     FOREIGN KEY (shipping_address_id) REFERENCES customer_address(id)
 ) ENGINE = InnoDB;
-
 CREATE TABLE book_author (
     book_id INT,
     author_id INT,
@@ -114,7 +100,6 @@ CREATE TABLE book_author (
     FOREIGN KEY (book_id) REFERENCES book(id),
     FOREIGN KEY (author_id) REFERENCES author(id)
 ) ENGINE = InnoDB;
-
 CREATE TABLE order_line (
     id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
@@ -124,7 +109,6 @@ CREATE TABLE order_line (
     FOREIGN KEY (order_id) REFERENCES cust_order(id),
     FOREIGN KEY (book_id) REFERENCES book(id)
 ) ENGINE = InnoDB;
-
 -- Create order_history table
 CREATE TABLE order_history (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -136,7 +120,6 @@ CREATE TABLE order_history (
     FOREIGN KEY (order_id) REFERENCES cust_order(id),
     FOREIGN KEY (status_id) REFERENCES order_status(id)
 ) ENGINE = InnoDB;
-
 -- Insert data into tables
 -- Insert into country table (matches CREATE TABLE)
 INSERT INTO country (country_name, country_code)
@@ -145,7 +128,6 @@ VALUES ('United States', 'USA'),
     ('Canada', 'CAN'),
     ('Australia', 'AUS'),
     ('Germany', 'DEU');
-
 -- Insert into order_status table (matches CREATE TABLE)
 INSERT INTO order_status (status_name)
 VALUES ('Pending'),
@@ -153,14 +135,12 @@ VALUES ('Pending'),
     ('Shipped'),
     ('Delivered'),
     ('Cancelled');
-
 -- Insert into shipping_method table (matches CREATE TABLE)
 INSERT INTO shipping_method (method_name, price)
 VALUES ('Standard Shipping', 5.99),
     ('Express Shipping', 12.99),
     ('Overnight Shipping', 24.99),
     ('International Shipping', 19.99);
-
 -- Insert into book_language table (matches CREATE TABLE)
 INSERT INTO book_language (language_name)
 VALUES ('English'),
@@ -168,7 +148,6 @@ VALUES ('English'),
     ('French'),
     ('German'),
     ('Italian');
-
 -- Insert into publisher table (matches CREATE TABLE)
 INSERT INTO publisher (publisher_name, address, email)
 VALUES (
@@ -196,7 +175,6 @@ VALUES (
         '120 Broadway, New York, NY 10271, USA',
         'info@macmillan.com'
     );
-
 -- Insert into author table (matches CREATE TABLE)
 INSERT INTO author (first_name, last_name)
 VALUES ('J.K.', 'Rowling'),
@@ -204,7 +182,6 @@ VALUES ('J.K.', 'Rowling'),
     ('Stephen', 'King'),
     ('Agatha', 'Christie'),
     ('Ernest', 'Hemingway');
-
 -- Insert into address table (matches CREATE TABLE)
 INSERT INTO address (
         street_address,
@@ -218,7 +195,6 @@ VALUES ('123 Main St', 'New York', 'NY', '10001', 1),
     ('789 Queen St', 'Toronto', 'ON', 'M5H 2N2', 3),
     ('321 Collins St', 'Melbourne', 'VIC', '3000', 4),
     ('654 Friedrichstr', 'Berlin', NULL, '10117', 5);
-
 -- Insert into customer table (matches CREATE TABLE)
 INSERT INTO customer (first_name, last_name, email, phone)
 VALUES (
@@ -251,7 +227,6 @@ VALUES (
         'm.schmidt@example.com',
         '+49-30-1234-5678'
     );
-
 -- Insert into book table (matches CREATE TABLE)
 INSERT INTO book (
         title,
@@ -307,7 +282,6 @@ VALUES (
         5,
         '1952-09-01'
     );
-
 -- Insert into customer_address table (matches CREATE TABLE)
 INSERT INTO customer_address (
         customer_id,
@@ -320,7 +294,6 @@ VALUES (1, 1, TRUE, 1),
     (2, 3, TRUE, 1),
     (3, 2, TRUE, 1),
     (3, 1, FALSE, 2);
-
 -- Insert into cust_order table (matches CREATE TABLE)
 INSERT INTO cust_order (
         customer_id,
@@ -334,7 +307,6 @@ VALUES (1, 1, 1, 35.98, 1),
     (3, 3, 3, 25.98, 3),
     (4, 4, 4, 37.98, 4),
     (5, 5, 1, 15.99, 1);
-
 -- Insert into book_author table (matches CREATE TABLE)
 INSERT INTO book_author (book_id, author_id)
 VALUES (1, 1),
@@ -342,7 +314,6 @@ VALUES (1, 1),
     (3, 3),
     (4, 4),
     (5, 5);
-
 -- Insert into order_line table (matches CREATE TABLE)
 INSERT INTO order_line (order_id, book_id, quantity, price)
 VALUES (1, 1, 1, 19.99),
@@ -353,7 +324,6 @@ VALUES (1, 1, 1, 19.99),
     (4, 1, 1, 19.99),
     (4, 2, 1, 24.99),
     (5, 3, 1, 15.99);
-
 -- Insert into address_status table (matches CREATE TABLE)
 INSERT INTO address_status (status_name, description, is_active)
 VALUES (
@@ -369,7 +339,6 @@ VALUES (
     ),
     ('Business', 'Business or work address', TRUE),
     ('Invalid', 'Address is no longer valid', FALSE);
-
 -- Insert into order_history table (matches CREATE TABLE)
 INSERT INTO order_history (order_id, status_id, notes, changed_by)
 VALUES (1, 1, 'Order received', 'system'),
@@ -378,50 +347,40 @@ VALUES (1, 1, 'Order received', 'system'),
     (1, 4, 'Order delivered', 'system'),
     (2, 1, 'Order received', 'system'),
     (2, 2, 'Payment processed', 'employee1');
-
 -- Create roles
 CREATE ROLE 'admin';
 CREATE ROLE 'client';
 CREATE ROLE 'employee';
 CREATE ROLE 'guest';
 -- Grant privileges to roles
-
 -- Admin has full access
 GRANT ALL PRIVILEGES ON bookstoreDB.* TO 'admin';
-
 -- Client can manage data but not structure
 GRANT SELECT,
     INSERT,
     UPDATE ON bookstoreDB.* TO 'client';
-
 -- Employee has limited access to order_history table
 GRANT INSERT,
     UPDATE ON bookstoreDB.order_history TO 'employee';
-
 -- Guest can only view data
 GRANT SELECT ON bookstoreDB.* TO 'guest';
-
 -- Create users
 CREATE USER 'thiak_admin' @'localhost' IDENTIFIED BY 'admin123';
 CREATE USER 'amos_client' @'localhost' IDENTIFIED BY 'client123';
 CREATE USER 'charles_employee' @'localhost' IDENTIFIED BY 'employee123';
 CREATE USER 'john_guest' @'localhost' IDENTIFIED BY 'guest123';
-
 -- Assign roles to users
 GRANT 'admin' TO 'thiak_admin' @'localhost';
 GRANT 'client' TO 'amos_client' @'localhost';
 GRANT 'employee' TO 'charles_employee' @'localhost';
 GRANT 'guest' TO 'john_guest' @'localhost';
-
 -- Set default roles
 SET DEFAULT ROLE 'admin' TO 'thiak_admin' @'localhost';
 SET DEFAULT ROLE 'client' TO 'amos_client' @'localhost';
 SET DEFAULT ROLE 'employee' TO 'charles_employee' @'localhost';
 SET DEFAULT ROLE 'guest' TO 'john_guest' @'localhost';
-
 -- Apply changes
 FLUSH PRIVILEGES;
-
 -- List all books with author(s), publisher, and language 
 SELECT b.title,
     b.isbn,
@@ -436,7 +395,6 @@ FROM book b
     LEFT JOIN publisher p ON b.publisher_id = p.id
     LEFT JOIN book_language bl ON b.language_id = bl.id
 ORDER BY b.title;
-
 -- Find all books by a specific author
 SELECT b.title,
     b.isbn,
@@ -447,7 +405,6 @@ FROM book b
     JOIN author a ON ba.author_id = a.id
 WHERE a.first_name = 'J.K.'
     AND a.last_name = 'Rowling';
-
 -- Books with low stock (quantity < 10)
 SELECT b.title,
     b.quantity,
@@ -455,11 +412,9 @@ SELECT b.title,
 FROM book b
     JOIN publisher p ON b.publisher_id = p.id
 WHERE b.quantity < 10;
-
 -- Totla inventory value
 SELECT SUM(b.price * b.quantity) AS total_inventory_value
 FROM book b;
-
 -- all customers with default address
 SELECT c.first_name,
     c.last_name,
@@ -475,7 +430,6 @@ FROM customer c
     JOIN address a ON ca.address_id = a.id
     JOIN country co ON a.country_id = co.id
 WHERE ca.is_default = TRUE;
-
 -- customer order history
 SELECT c.first_name,
     c.last_name,
@@ -490,7 +444,6 @@ FROM customer c
     JOIN book b ON ol.book_id = b.id
 GROUP BY o.id
 ORDER BY o.order_date DESC;
-
 -- total sales by author
 SELECT CONCAT(a.first_name, ' ', a.last_name) AS author,
     COUNT(DISTINCT o.id) AS total_orders,
@@ -503,7 +456,6 @@ FROM author a
     JOIN cust_order o ON ol.order_id = o.id
 GROUP BY a.id
 ORDER BY total_revenue DESC;
-
 -- monthly sales report
 SELECT DATE_FORMAT(o.order_date, '%Y-%m') AS month,
     COUNT(DISTINCT o.id) AS total_orders,
@@ -512,7 +464,6 @@ SELECT DATE_FORMAT(o.order_date, '%Y-%m') AS month,
 FROM cust_order o
 GROUP BY DATE_FORMAT(o.order_date, '%Y-%m')
 ORDER BY month DESC;
-
 -- pending orders with pending status
 SELECT o.id AS order_id,
     c.first_name,
@@ -534,7 +485,6 @@ FROM cust_order o
     JOIN order_status os ON o.status_id = os.id
 WHERE os.status_name IN ('Pending', 'Processing')
 ORDER BY o.order_date;
-
 -- customer lifetime value
 SELECT c.id,
     c.first_name,
@@ -547,7 +497,6 @@ FROM customer c
     JOIN cust_order o ON c.id = o.customer_id
 GROUP BY c.id
 ORDER BY total_spent DESC;
-
 -- popular books combinations(frequently bought together)
 SELECT b1.title AS book1,
     b2.title AS book2,
@@ -561,7 +510,6 @@ GROUP BY b1.id,
     b2.id
 HAVING COUNT(*) > 1
 ORDER BY times_bought_together DESC;
-
 -- check orphaned records
 SELECT 'book_author' AS table_name,
     COUNT(*) AS orphaned_records
@@ -580,7 +528,6 @@ SELECT 'order_line',
 FROM order_line ol
     LEFT JOIN cust_order o ON ol.order_id = o.id
 WHERE o.id IS NULL;
-
 -- database statistics
 SELECT (
         SELECT COUNT(*)
